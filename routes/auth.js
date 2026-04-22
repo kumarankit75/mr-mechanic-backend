@@ -42,9 +42,17 @@ router.post('/register', async (req, res) => {
         role: user.role,
       }
     })
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message })
+//   } catch (err) {
+//     res.status(500).json({ message: 'Server error', error: err.message })
+//   }
+} catch (err) {
+  console.error('Register error:', err)
+  if (err.code === 11000) {
+    return res.status(400).json({ message: 'Email already registered' })
   }
+  res.status(500).json({ message: 'Server error', error: err.message })
+}
+
 })
 
 // Login
